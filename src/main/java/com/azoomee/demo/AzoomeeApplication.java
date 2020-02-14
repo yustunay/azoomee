@@ -50,7 +50,7 @@ public class AzoomeeApplication implements CommandLineRunner {
 		    Salary salary = new Salary(2000,LocalDate.now(),null);
 		    Department department = deptRepository.findByDeptNo("IT01");
 		    Title title = titleRepository.findByTitleCode("SRDEV");
-			Employee emp1 = new Employee(LocalDate.of(2019, 8, 24), "Yahya", "Ustunay", Gender.M, LocalDate.now(), salary, title, department);
+			Employee emp1 = new Employee(LocalDate.of(1983, 8, 24), "User1Name", "User1LastName", Gender.M, LocalDate.of(2020, 2, 12), salary, title, department);
 			empRepository.save(emp1);
 			
 			Address adress1 = new Address.AddressBuilder().setLine1("10 Downing Street")
@@ -61,12 +61,12 @@ public class AzoomeeApplication implements CommandLineRunner {
 			department.setOffice(new Office("Central Office",adress1));
 			deptRepository.save(department);
 						
-			System.out.println(emp1.getDepartment().getOffice().getAddress());
+//			System.out.println(emp1.getDepartment().getOffice().getAddress());
 
-			Winner winner = new Winner("12020", 1, "Berna Üstünay");
+			Winner winner = new Winner("12020", 1, "User1");
 			winnerRepository.save(winner);
 			
-			winner = new Winner("22020", 1, "Yahya Üstünay");
+			winner = new Winner("22020", 1, "User2");
 			winnerRepository.save(winner);
 	}
 	

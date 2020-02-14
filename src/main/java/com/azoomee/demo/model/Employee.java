@@ -15,8 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "employees")
@@ -27,13 +26,10 @@ public class Employee implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-
 	private LocalDate birthDate;
-
 	private String firstName;
 	private String lastName;
 	private Gender gender;
-
 	private LocalDate hireDate;
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -48,7 +44,7 @@ public class Employee implements Serializable {
 	@NotNull
 	@ManyToOne(cascade = { CascadeType.MERGE }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "department_id")
-	@JsonManagedReference
+	//@JsonManagedReference
 	private Department department;
 
 	public Employee() {
@@ -74,10 +70,12 @@ public class Employee implements Serializable {
 		this.id = id;
 	}
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}

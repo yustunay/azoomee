@@ -37,7 +37,7 @@ public class EmployeeController {
 	}
 
 	@GetMapping(path = "/getEmp/{hireDate}/{salary}")
-	public Employee getEmpWithHireDateAndSalary(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hireDate, @PathVariable Double salary) {
+	public List<Employee> getEmpWithHireDateAndSalary(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hireDate, @PathVariable Double salary) {
 		return empService.getEmpWithHireDateAndSalary(hireDate,salary);
 	}
 

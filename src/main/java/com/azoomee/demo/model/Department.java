@@ -14,8 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "departments")
@@ -38,9 +37,9 @@ public class Department implements Serializable {
 		this.id = id;
 	}
 
-	//@JsonIgnore
+	@JsonIgnore
 	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonBackReference
+	//@JsonBackReference
 	private List<Employee> employee = new ArrayList<>();
 	
 	@OneToOne(cascade = CascadeType.ALL)

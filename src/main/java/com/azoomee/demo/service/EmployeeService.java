@@ -52,7 +52,7 @@ public class EmployeeService {
 		empRepository.deleteById(id);
 	}
 	
-	public Employee getEmpWithHireDateAndSalary(LocalDate hireDate, double salary) {
+	public List<Employee> getEmpWithHireDateAndSalary(LocalDate hireDate, double salary) {
 		return empRepository.findByHireDateAndSalary(hireDate, salary);
 	}
 
