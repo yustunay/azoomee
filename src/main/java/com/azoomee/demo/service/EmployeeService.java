@@ -6,8 +6,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.azoomee.demo.model.Department;
 import com.azoomee.demo.model.Employee;
@@ -42,7 +40,7 @@ public class EmployeeService {
 		return empRepository.save(employee);
 	}
 
-	public Employee updateEmployee(@PathVariable long id, @RequestBody EmployeeDTO employeeDTO) {
+	public Employee updateEmployee(long id, EmployeeDTO employeeDTO) {
 		Employee employee = convertEmployeeDTOToEmployee(employeeDTO);
 		employee.setId(id);
 		return empRepository.save(employee);
