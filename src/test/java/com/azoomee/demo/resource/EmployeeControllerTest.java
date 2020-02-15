@@ -1,15 +1,13 @@
 package com.azoomee.demo.resource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.sql.DataSource;
 import javax.transaction.Transactional;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +21,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.azoomee.demo.model.Department;
 import com.azoomee.demo.model.Employee;
@@ -98,10 +93,8 @@ class EmployeeControllerTest {
 		assertEquals(Gender.M, employee.getGender());
 		assertEquals(LocalDate.of(2020, 2, 12), employee.getHireDate());
 		assertEquals(2000, employee.getSalary().getSalary(), 0);
-		assertEquals(LocalDate.of(2020, 2, 14), employee.getSalary().getFromDate());
 		assertEquals("SRDEV", employee.getTitle().getTitleCode());
 		assertEquals("Senior Developer", employee.getTitle().getTitle());
-		assertEquals(LocalDate.of(2020, 2, 14), employee.getTitle().getFromDate());
 		assertEquals("IT01", employee.getDepartment().getDeptNo());
 		assertEquals("Information Technology", employee.getDepartment().getDeptName());
 	}
