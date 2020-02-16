@@ -14,5 +14,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
 	@Query("SELECT e FROM Employee e, Salary s WHERE e.salary.id = s.id and e.hireDate >= ?1 AND e.salary.salary >= ?2")
 	List<Employee> findByHireDateAndSalary(LocalDate hireDate, double salary);
+	
 	Employee findByFirstName(String firstName);
 }

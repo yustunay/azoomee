@@ -67,7 +67,7 @@ public class Salary implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Salary [id=" + id + ", salary=" + salary + ", fromDate=" + fromDate + ", endDate=" + endDate + "]";
+		return "Salary [id=" + id + ", fromDate=" + fromDate + ", endDate=" + endDate + "]";
 	}
 
 }

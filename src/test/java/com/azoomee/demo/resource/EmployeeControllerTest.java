@@ -81,17 +81,16 @@ class EmployeeControllerTest {
 
 	@Test
 	public void shouldGetEmployeeById() throws Exception {
-		ResponseEntity<String> response = restTemplate.exchange("http://localhost:" + port + "/getEmp/1",
-				HttpMethod.GET, null, String.class);
+		ResponseEntity<String> response = restTemplate.exchange("http://localhost:" + port + "/getEmp/1002",HttpMethod.GET, null, String.class);
 		Employee employee = objectMapper.readValue(response.getBody(), Employee.class);
 
 		assertEquals(HttpStatus.OK, response.getStatusCode());
-		assertEquals(1, employee.getId());
+		assertEquals(1002, employee.getId());
 		assertEquals(LocalDate.of(1983, 8, 24), employee.getBirthDate());
-		assertEquals("User1Name", employee.getFirstName());
-		assertEquals("User1LastName", employee.getLastName());
-		assertEquals(Gender.M, employee.getGender());
-		assertEquals(LocalDate.of(2020, 2, 12), employee.getHireDate());
+		assertEquals("Diana", employee.getFirstName());
+		assertEquals("Roberts", employee.getLastName());
+		assertEquals(Gender.F, employee.getGender());
+		assertEquals(LocalDate.of(2020, 1, 12), employee.getHireDate());
 		assertEquals(2000, employee.getSalary().getSalary(), 0);
 		assertEquals("SRDEV", employee.getTitle().getTitleCode());
 		assertEquals("Senior Developer", employee.getTitle().getTitle());
@@ -101,10 +100,8 @@ class EmployeeControllerTest {
 
 	@Test
 	public void shouldGetEmpWithHireDateAndSalary() throws JsonMappingException, JsonProcessingException {
-		ResponseEntity<String> response = restTemplate.exchange("http://localhost:" + port + "/getEmp/2020-02-11/1500",
-				HttpMethod.GET, null, String.class);
-		List<Employee> employeeList = objectMapper.readValue(response.getBody(), new TypeReference<List<Employee>>() {
-		});
+		ResponseEntity<String> response = restTemplate.exchange("http://localhost:" + port + "/getEmp/2020-01-11/1500",HttpMethod.GET, null, String.class);
+		List<Employee> employeeList = objectMapper.readValue(response.getBody(), new TypeReference<List<Employee>>() {});
 
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(employeeList.size() > 0);
@@ -145,7 +142,7 @@ class EmployeeControllerTest {
 	@Rollback(true)
 	public void shouldUpdateEmployee() throws JsonMappingException, JsonProcessingException {
 
-		Employee employee = employeeRepository.findByFirstName("User1Name");
+		Employee employee = employeeRepository.findByFirstName("Diana");
 		EmployeeDTO employeeDTO = new EmployeeDTO();
 		employeeDTO.setId(employee.getId());
 		employeeDTO.setBirthDate(employee.getBirthDate());
@@ -153,7 +150,7 @@ class EmployeeControllerTest {
 		employeeDTO.setFirstName(employee.getFirstName());
 
 		// UPDATE LASTNAME
-		employeeDTO.setLastName("UserNewLastName"); // employee.getLastName()
+		employeeDTO.setLastName("R. Roberts"); // employee.getLastName()
 		employeeDTO.setHireDate(employee.getHireDate());
 		// UPDATE SALARY
 		employee.getSalary().setSalary(4000);
@@ -170,8 +167,7 @@ class EmployeeControllerTest {
 				String.class);
 		Employee updatedEmployee = objectMapper.readValue(response.getBody(), Employee.class);
 
-		assertEquals("UserNewLastName", updatedEmployee.getLastName());
-		assertEquals("UserNewLastName", updatedEmployee.getLastName());
+		assertEquals("R. Roberts", updatedEmployee.getLastName());
 		assertEquals(4000, updatedEmployee.getSalary().getSalary(), 0);
 		assertEquals("PMAN", updatedEmployee.getTitle().getTitleCode());
 		assertEquals("Project Manager", updatedEmployee.getTitle().getTitle());
@@ -180,10 +176,9 @@ class EmployeeControllerTest {
 	@Test
 	@Rollback(true)
 	public void shouldDeleteEmployee() {
-		Employee employee = employeeRepository.findByFirstName("User1Name");
+		Employee employee = employeeRepository.findByFirstName("Diana");
 		ResponseEntity<Void> response = restTemplate.exchange(
-				"http://localhost:" + port + "/deleteEmployee/" + employee.getId(), HttpMethod.DELETE, null,
-				Void.class);
+				"http://localhost:" + port + "/deleteEmployee/" + employee.getId(), HttpMethod.DELETE, null,Void.class);
 		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 	}
 

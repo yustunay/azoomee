@@ -77,8 +77,7 @@ public class Title implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Title [id=" + id + ", titleCode=" + titleCode + ", title=" + title + ", fromDate=" + fromDate
-				+ ", toDate=" + toDate + "]";
+		return "Title [id=" + id + ", titleCode=" + titleCode + ", title=" + title + "]";
 	}
 
 }

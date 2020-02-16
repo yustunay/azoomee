@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,8 +39,7 @@ public class Department implements Serializable {
 	}
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
-	//@JsonBackReference
+	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<Employee> employee = new ArrayList<>();
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -55,6 +55,12 @@ public class Department implements Serializable {
 		this.office = office;
 	}
 
+	public Department(String deptNo, String deptName, Office office) {
+		this.deptNo = deptNo;
+		this.deptName = deptName;
+		this.office = office;
+	}
+	
 	public String getDeptNo() {
 		return deptNo;
 	}
@@ -85,6 +91,10 @@ public class Department implements Serializable {
 
 	public void setOffice(Office office) {
 		this.office = office;
+	}
+	
+	public void addEmployee(Employee employee) {
+		this.employee.add(employee);
 	}
 
 	@Override

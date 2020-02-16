@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +19,11 @@ import com.azoomee.demo.repository.DepartmentRepository;
 import com.azoomee.demo.repository.EmployeeRepository;
 import com.azoomee.demo.repository.TitleRepository;
 
+@Transactional
 @Service
 public class EmployeeService {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeService.class);
 
 	@Autowired
 	private EmployeeRepository empRepository;
@@ -55,40 +62,39 @@ public class EmployeeService {
 	}
 
 	private Employee convertEmployeeDTOToEmployee(EmployeeDTO employeeDTO) {
-		Employee employee = new Employee();
+		Employee.EmployeeBuilder builder = new Employee.EmployeeBuilder(); 		
 		Employee employeeOnDB = new Employee();
 
 		//Update operation
 		if (employeeDTO.getId() > 0) {
-			employeeOnDB = empRepository.findById(employeeDTO.getId()).orElse(employee);
+			employeeOnDB = empRepository.findById(employeeDTO.getId()).orElse(new Employee());
 
 			if (employeeDTO.getSalary().getId() == 0) {
 				employeeDTO.getSalary().setId(employeeOnDB.getSalary().getId());
 			}
 		}
 
-		employee.setBirthDate(employeeDTO.getBirthDate());
-		employee.setFirstName(employeeDTO.getFirstName());
-		employee.setLastName(employeeDTO.getLastName());
-		employee.setGender(employeeDTO.getGender());
-		employee.setHireDate(employeeDTO.getHireDate());
-		employee.setSalary(employeeDTO.getSalary());
-
+		builder.setBirthDate(employeeDTO.getBirthDate())
+			   .setFirstName(employeeDTO.getFirstName())
+			   .setLastName(employeeDTO.getLastName())
+			   .setGender(employeeDTO.getGender())
+			   .setHireDate(employeeDTO.getHireDate())
+			   .setSalary(employeeDTO.getSalary());
+						
 		if (employeeDTO.getTitleId() > 0) {
 			Optional<Title> title = titleRepository.findById(employeeDTO.getTitleId());
 			if (title.isPresent())
-				employee.setTitle(title.get());
+				builder.setTitle(title.get());
 			else
-				employee.setTitle(employeeOnDB.getTitle());
+				builder.setTitle(employeeOnDB.getTitle());
 		}
 		if (employeeDTO.getDepartmentId() > 0) {
 			Optional<Department> department = departmentRepository.findById(employeeDTO.getDepartmentId());
 			if (department.isPresent())
-				employee.setDepartment(department.get());
+				builder.setDepartment(department.get());
 			else
-				employee.setDepartment(employeeOnDB.getDepartment());
+				builder.setDepartment(employeeOnDB.getDepartment());
 		}
-		return employee;
+		return builder.build();
 	}
-
 }
